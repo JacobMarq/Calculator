@@ -172,6 +172,7 @@ body{
     color: white;
     background-color: rgb(95, 95, 95);
     padding-left: 10px;
+    list-style: none;
     cursor: default;
 }
 .selection{
