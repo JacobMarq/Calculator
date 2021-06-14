@@ -10,8 +10,26 @@
         <header class="top-bar">
             <div class="autocenter">
                 <div class="gridcells">
-                    <a class="dropdown-toggle clickable"></a>
-                    <div class="dialog"></div>
+                    <a class="dropdown-toggle clickable">
+                        <span class="HamburgerPatty"></span>
+                    </a>
+                    <div class="dialog-wrapper">
+                        <div id="dialog-container">
+                            <div class="dialog">
+                                <div class="sticky-container">
+                                    <oi class="mode-selections">
+                                        <li class="mode-type">Calculator</li>
+                                        <li id="Standard" class="selection current">Standard</li>
+                                        <li id="Scientific" class="selection">Scientific</li>
+                                        <li class="mode-type">Converter</li>
+                                        <li id="Currency" class="selection">Currency</li>
+                                        <li id="Volume" class="selection">Volume</li>     
+                                        <li id="Weight" class="selection">Weight</li>                         
+                                    </oi>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="dropdown-selection">Standard</div>
                 </div>
                 <ol class="bar-options clickable">
@@ -23,6 +41,9 @@
                 </ol>
             </div>
         </header>
+        <div id="container">
+
+        </div>
         <script src="scripts.js"></script>
         <script>
 
