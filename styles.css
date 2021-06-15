@@ -275,5 +275,64 @@ body{
     100% { -webkit-transform: translateX(200%);}
 }
 
+/* Calculator */
+
+.container{
+    display: flex;
+    position: relative;
+    width: auto;
+    height: auto;
+    justify-content: space-between;
+    background-color: aliceblue;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 50px;
+    border-radius: 3%;
+    border: rgb(180, 180, 180) 5px solid;
+    overflow: hidden;
+}
+.content-wrapper{
+    width: 600px !important;
+    height: 700px !important;
+    background-color: lightgray;
+}
+.content-wrapper.Scientific{
+    width: 1000px !important;
+    height: 700px !important;
+    background-color: lightgray;
+}
+.screen{
+    display: flex;
+    justify-content: right;
+    justify-self: center;
+    align-items:baseline;
+    align-self: center;
+    margin: auto;
+    margin-top: 25px;
+    height: 150px;
+    width: 90%;
+    background-color: rgb(49, 49, 49);
+    border: rgb(180, 180, 180) 5px solid;
+}
+.screen.Scientific{
+    background-color: rgb(49, 49, 49);
+    border: rgb(180, 180, 180) 5px solid;
+}
+.buttons{
+    height: 465px;
+    width: 90%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: lightcyan;
+}
+.buttons.scientific{
+    height: 465px;
+    background-color: lightcyan;
+}
+
+
+
 
 
