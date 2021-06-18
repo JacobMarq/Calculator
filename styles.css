@@ -301,11 +301,13 @@ body{
     height: 700px !important;
     background-color: lightgray;
 }
+
 .screen{
     display: flex;
+    flex-direction: column;
     justify-content: right;
     justify-self: center;
-    align-items:baseline;
+    align-items: right;
     align-self: center;
     margin: auto;
     margin-top: 25px;
@@ -313,23 +315,131 @@ body{
     width: 90%;
     background-color: rgb(49, 49, 49);
     border: rgb(180, 180, 180) 5px solid;
+    color: white;
+    overflow: hidden;
 }
 .screen.Scientific{
     background-color: rgb(49, 49, 49);
     border: rgb(180, 180, 180) 5px solid;
 }
+.equation-log{
+    display: flex;
+    justify-content: right;
+    justify-self: right;
+    text-align: right;
+    margin-top: 30px;
+    margin-right: 20px;
+    cursor: default;
+}
+.current-number{
+    display: flex;
+    justify-content: right;
+    justify-self: right;
+    text-align: right;
+    margin-right: 15px;
+    margin-top: auto;
+    margin-bottom: 44px;
+    font-size: 3rem;
+    cursor: default;
+}
+
 .buttons{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: repeat 6 1fr;
     height: 465px;
     width: 90%;
     margin-top: 25px;
     margin-bottom: 25px;
     margin-left: auto;
     margin-right: auto;
-    background-color: lightcyan;
+    background-color: rgb(180, 180, 180);
+    border: rgb(180, 180, 180) 5px solid;
 }
 .buttons.scientific{
     height: 465px;
     background-color: lightcyan;
+}
+
+.numpad{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    margin: 2.5px;
+    background-color: rgb(230, 230, 230);
+    border: 2.5px solid rgb(230, 230, 230);
+    border-radius: 10px;
+}
+.numpad:hover{
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    border: 2.5px solid rgb(255, 255, 255);
+}
+.highlight{
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    border: 2.5px solid rgb(255, 255, 255);
+}
+
+.erase{
+    color: white;
+    background-color: brown;
+    border: 2.5px solid brown;
+}
+.erase:hover{
+    background-color: rgb(210, 45, 45);
+    border: 2.5px solid rgb(210, 45, 45);
+}
+.erase.highlight{
+    background-color: rgb(210, 45, 45);
+    border: 2.5px solid rgb(210, 45, 45);
+}
+
+.enter{
+    color: white;
+    background-color: rgb(0, 110, 255);
+    border: 2.5px solid rgb(0, 110, 255);
+}
+.enter:hover{
+    background-color: rgb(0, 153, 255);
+    border: 2.5px solid rgb(0, 153, 255);
+}
+.enter.highlight{
+    background-color: rgb(0, 153, 255);
+    border: 2.5px solid rgb(0, 153, 255);
+}
+
+.backspace-symbol{
+    font-size: 2rem;
+}
+
+.operator{
+    color: white;
+    background-color: rgb(201, 110, 0);
+    border: 2.5px solid rgb(201, 110, 0);
+}
+.operator:hover{
+    background-color: rgb(227, 122, 0);
+    border: 2.5px solid rgb(227, 122, 0);
+}
+.operator.highlight{
+    background-color: rgb(227, 122, 0);
+    border: 2.5px solid rgb(227, 122, 0);
+}
+
+.functions{
+    color: white;
+    background-color: rgb(60, 77, 77);
+    border: 2.5px solid rgb(60, 77, 77);
+}
+.functions:hover{
+    background-color: rgb(90, 116, 116);
+    border: 2.5px solid rgb(90, 116, 116);
+}
+.functions.highlight{
+    background-color: rgb(90, 116, 116);
+    border: 2.5px solid rgb(90, 116, 116);
 }
 
 
