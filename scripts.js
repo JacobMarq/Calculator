@@ -56,7 +56,7 @@ let hasDecimal = false;
 //keypad arrays
 const standardKeyArray = ['percent', 'clear-each', 'clear-all', 'clear-backspace',
 'one-divided-by-x', 'x-squared', 'sqrt', 'op-divide', '7', '8', '9',
-'op-multiply', '4', '5', '6', 'op-subtract', '1', '2', '3', 'op-add', 'toggle-negative',
+'op-multiply', '4', '5', '6', 'op-subtract', '1', '2', '3', 'op-add', 'toggle-inverse',
 '0', 'decimal', 'equals'];
 const standardKeyContentArr = ['%', 'CE', 'C', '<-', '1/x', 'x^2', `sqrt`,
 '/', '7', '8', '9', '*', '4', '5', '6', '-', '1', '2', '3', '+', '+/-',
@@ -189,6 +189,24 @@ function ToggleMemory()
 
 //Display functions
 
+function DecimalCheck(a)
+{   
+    var checkNumber = a.toString();
+
+    if(checkNumber.match(/^\d*\.?\d+e[-+]?\d+/g))
+    {
+        hasDecimal = false;
+    }
+    else if(checkNumber.indexOf('.') > 0)
+    // else if(checkNumber.match(/^\d*\.?\d*/g))
+    {
+        hasDecimal = true;
+    }
+    else
+    {
+        hasDecimal = false;
+    }
+}
 
 function RemoveCommas(displayNumber)
 {
@@ -213,9 +231,33 @@ function ApplyCommas()
 
     //commas are first removed from the number then assigned from left to right
     var number;
+    var decimalPlace;
+    var isNegative;
+
     function UpdateNumber()
     {
         number = CurrentNumber.textContent;
+        DecimalCheck(number);
+        
+        if(number.startsWith('-'))
+        {
+            isNegative = true
+        }
+        else
+        {
+            isNegative = false
+        }
+
+        if(hasDecimal)
+        {
+            decimalPlace = number.indexOf('.');
+            console.log('howdy', decimalPlace)
+        }
+        else
+        {
+            decimalPlace = number.length
+            console.log('no howdy', decimalPlace)
+        }
     }
 
     UpdateNumber();
@@ -226,29 +268,59 @@ function ApplyCommas()
         UpdateNumber();
     }
         
-    if(number.length > 12)
+    if(isNegative)
     {
-        CurrentNumber.textContent = number.substr(0, number.length - 12) + ',' + number.substr(number.length - 12, number.length);
-        UpdateNumber();
-        console.log('13 comma'); 
+        if(decimalPlace > 13)
+        {
+            CurrentNumber.textContent = number.substr(0, decimalPlace - 12) + ',' + number.substr(decimalPlace - 12, number.length);
+            UpdateNumber();
+            console.log('13 comma'); 
+        }
+        if(decimalPlace > 10)
+        {
+            CurrentNumber.textContent = number.substr(0, decimalPlace - 9) + ',' + number.substr(decimalPlace - 9, number.length);
+            UpdateNumber();
+            console.log('10 comma'); 
+        }
+        if(decimalPlace > 7)
+        {
+            CurrentNumber.textContent = number.substr(0, decimalPlace - 6) + ',' + number.substr(decimalPlace - 6, number.length);
+            UpdateNumber();
+            console.log('7 comma'); 
+        }
+        if(decimalPlace > 4)
+        {
+            CurrentNumber.textContent = number.substr(0, decimalPlace - 3) + ',' + number.substr(decimalPlace - 3, number.length);
+            UpdateNumber();
+            console.log('4 comma');       
+        }
     }
-    if(number.length > 9)
-    {
-        CurrentNumber.textContent = number.substr(0, number.length - 9) + ',' + number.substr(number.length - 9, number.length);
-        UpdateNumber();
-        console.log('10 comma'); 
-    }
-    if(number.length > 6)
-    {
-        CurrentNumber.textContent = number.substr(0, number.length - 6) + ',' + number.substr(number.length - 6, number.length);
-        UpdateNumber();
-        console.log('7 comma'); 
-    }
-    if(number.length > 3)
-    {
-        CurrentNumber.textContent = number.substr(0, number.length - 3) + ',' + number.substr(number.length - 3, number.length);
-        UpdateNumber();
-        console.log('4 comma');       
+    else
+    {    
+        if(decimalPlace > 12)
+        {
+            CurrentNumber.textContent = number.substr(0, decimalPlace - 12) + ',' + number.substr(decimalPlace - 12, number.length);
+            UpdateNumber();
+            console.log('13 comma'); 
+        }
+        if(decimalPlace > 9)
+        {
+            CurrentNumber.textContent = number.substr(0, decimalPlace - 9) + ',' + number.substr(decimalPlace - 9, number.length);
+            UpdateNumber();
+            console.log('10 comma'); 
+        }
+        if(decimalPlace > 6)
+        {
+            CurrentNumber.textContent = number.substr(0, decimalPlace - 6) + ',' + number.substr(decimalPlace - 6, number.length);
+            UpdateNumber();
+            console.log('7 comma'); 
+        }
+        if(decimalPlace > 3)
+        {
+            CurrentNumber.textContent = number.substr(0, decimalPlace - 3) + ',' + number.substr(decimalPlace - 3, number.length);
+            UpdateNumber();
+            console.log('4 comma');       
+        }
     }
 }
 
@@ -276,6 +348,43 @@ function Percent()
         percentage = (numberA/100)*numberB;
     }
     numberResult = (numberA/100)*numberB;
+}
+
+function ToggleInverse(number)
+{
+    var newNumber = Number(RemoveCommas(number));
+    
+    if(number == 0)
+    {
+        return;
+    }
+    else
+    {
+        newNumber =  (newNumber * -1);
+        if(newNumber > 9999999999999 || newNumber < -9999999999999)
+        {   
+            var displayNumber = Number.parseFloat(newNumber).toExponential(5);
+            CurrentNumber.textContent = displayNumber;
+        }
+        else
+        {
+            CurrentNumber.textContent = newNumber;
+            ApplyCommas();
+        }
+    }
+}
+
+function ApplyDecimal(number)
+{
+    DecimalCheck(number);
+    if(hasDecimal || number.match(/^\d*\.?\d+e[-+]?\d+/g))
+    {
+        alert('Decimal limit reached!')
+    }
+    else
+    {
+        CurrentNumber.textContent = number + '.';
+    }
 }
 
 
@@ -316,9 +425,13 @@ function ApplyOperator(operator)
 {
     //when on the first variable the operator is saved and placed on the log
     //when on the second variable the previous variable stays displayed
-    //and operators are still selectable until
-    //user input after input operator keys trigger the previously saved operation
-
+    //operators are still selectable until user input
+    //after input operator keys trigger the previously saved operation
+    if(EquationLog.textContent.includes(' / ') && CurrentNumber.textContent == '0')
+    {
+        alert('You cannot divide by zero!')
+        return;
+    }
     if(isNumberA)
     {
         numberA = Number(RemoveCommas(CurrentNumber.textContent));
@@ -329,6 +442,7 @@ function ApplyOperator(operator)
     else if(isNumberB && numberB == null)
     {
         equationLog = [numberA, operator];
+        numberResult = null;
     }
     else if(numberB == undefined)
     {
@@ -336,13 +450,19 @@ function ApplyOperator(operator)
     }
     else
     {
+
         numberB = Number(RemoveCommas(CurrentNumber.textContent));
         numberResult = DoOperation(equationLog[1]);
+        DecimalCheck(numberResult);
+        if(hasDecimal)
+        {
+            numberResult = Number(numberResult.toFixed(2));
+        }
         equationLog = [numberA, operator, numberB];
         numberB = null;
         numberA = numberResult;
         equationLog = [numberA, operator];
-        if(numberA > 9999999999999)
+        if(numberA > 9999999999999 || numberA < -9999999999999 || hasDecimal && numberA.length > 12)
         {   
             var displayNumber = Number.parseFloat(numberA).toExponential(5);
             CurrentNumber.textContent = displayNumber;
@@ -389,28 +509,30 @@ function Enter()
         return;
     }
     
-    if(isNumberB && RemoveCommas(CurrentNumber.textContent) == numberResult)
+    if(isNumberB && Math.abs(RemoveCommas(CurrentNumber.textContent)) == Math.abs(numberResult))
     {        
         numberB = previousNumber;
-        if(EquationLog.textContent.match(/^\d*\.?\d+e[-+]?\d+/g))
+        if(EquationLog.textContent.match(/^\-*\d*\.?\d+e[-+]?\d+/g))
         {
-            //console.log(EquationLog.textContent.match(/\s.\s?/));
-            console.log(EquationLog.textContent.match(/^\d*\.?\d+e[-+]?\d+/g));
-            EquationLog.textContent = EquationLog.textContent.replace(/^\d*\.?\d+e[-+]?\d+/g, RemoveCommas(CurrentNumber.textContent) + ' ');
+            console.log(EquationLog.textContent.match(/^\-*\d*\.?\d+e[-+]?\d+/g));
+            EquationLog.textContent = EquationLog.textContent.replace(/^\-*\d*\.?\d+e[-+]?\d+/g, RemoveCommas(CurrentNumber.textContent) + ' ');
         }
         else
         {
-            console.log(EquationLog.textContent.match(/^(\d*,*[e\+\d]*)\s/));
-            EquationLog.textContent = EquationLog.textContent.replace(/^(\d*,*[e\+\d])\s/, RemoveCommas(CurrentNumber.textContent) + ' ');
+            console.log(EquationLog.textContent.match(/^(\-*\d*,*[e\+\.\d]*)\s/));
+            EquationLog.textContent = EquationLog.textContent.replace(/^(\-*\d*,*[e\+\.\d]*)\s/, RemoveCommas(CurrentNumber.textContent) + ' ');
         }
-        console.log(numberB);
-        console.log(numberA);
         
         numberResult = DoOperation(equationLog[1]);
+        DecimalCheck(numberResult);
+        if(hasDecimal)
+        {
+            numberResult = Number(numberResult.toFixed(2));
+        }
         equationLog.push(numberB, ' = ');
         numberB = null;
         numberA = numberResult;
-        if(numberA > 9999999999999)
+        if(numberA > 9999999999999 || numberA < -9999999999999 || hasDecimal && numberA.length > 12)
         {   
             var displayNumber = Number.parseFloat(numberA).toExponential(5);
             CurrentNumber.textContent = displayNumber;
@@ -428,12 +550,17 @@ function Enter()
         EquationLog.textContent = EquationLog.textContent + RemoveCommas(CurrentNumber.textContent) + ' = ';
         numberB = Number(RemoveCommas(CurrentNumber.textContent));
         numberResult = DoOperation(equationLog[1]);
+        DecimalCheck(numberResult);
+        if(hasDecimal)
+        {
+            numberResult = Number(numberResult.toFixed(2));
+        }
         equationLog.push(numberB, ' = ');
         previousNumber = numberB;
         numberB = null;
         numberA = numberResult;
         
-        if(numberA > 9999999999999)
+        if(numberA > 9999999999999 || numberA < -9999999999999 || hasDecimal && numberA.length > 12)
         {   
             var displayNumber = Number.parseFloat(numberA).toExponential(5);
             CurrentNumber.textContent = displayNumber;
@@ -655,6 +782,14 @@ function InsertKeyPadFunctions()
         else if(keypadNodelist[i].classList.contains('enter'))
         {
             keypadNodelist[i].addEventListener('click', ()=>Enter());
+        }
+        else if(keypadNodelist[i].classList.contains('toggle-inverse'))
+        {
+            keypadNodelist[i].addEventListener('click', ()=>ToggleInverse(CurrentNumber.textContent));
+        }
+        else if(keypadNodelist[i].classList.contains('decimal'))
+        {
+            keypadNodelist[i].addEventListener('click', ()=>ApplyDecimal(CurrentNumber.textContent));
         }
         else
         {

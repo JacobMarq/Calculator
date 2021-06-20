@@ -1,5 +1,5 @@
 html{
-    background-color: rgb(82, 82, 82);
+    background-color: #282828;
 }
 
 body{
@@ -21,7 +21,7 @@ body{
     width: 100%;
     z-index: 5050;
     height: 50px;
-    background-color: rgb(95, 95, 95);
+    background-color: #333;
     box-shadow: 0 0 10px 1px black;
 }
 .autocenter{
@@ -54,7 +54,7 @@ body{
     justify-content: center !important;   
 }
 .dropdown-toggle:hover{
-    background-color: gray;
+    background-color: #666;
 }
 .dropdown-toggle span{
     width: 18px;
@@ -131,8 +131,8 @@ body{
     position: absolute;
     z-index: 999;
     text-align: left;
-    background-color: rgb(100, 100, 100);
-    box-shadow: 0 3px 3px 0 rgb(49, 49, 49);
+    background-color: #323232;
+    box-shadow: 0 3px 3px 0 #282828;
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
@@ -170,7 +170,7 @@ body{
     font-size: 0.9rem;
     line-height: 2rem;
     color: white;
-    background-color: rgb(95, 95, 95);
+    background-color: #292929;
     padding-left: 10px;
     list-style: none;
     cursor: default;
@@ -185,10 +185,10 @@ body{
     cursor: pointer;
 }
 .selection:hover{
-    background-color: gray;
+    background-color: #666;
 }
 .selection.current{
-    background-color: gray;
+    background-color: #666;
     border-left: 5px solid rgb(0, 119, 255);
 }
 
@@ -313,13 +313,13 @@ body{
     margin-top: 25px;
     height: 150px;
     width: 90%;
-    background-color: rgb(49, 49, 49);
+    background-color: #242424;
     border: rgb(180, 180, 180) 5px solid;
     color: white;
     overflow: hidden;
 }
 .screen.Scientific{
-    background-color: rgb(49, 49, 49);
+    background-color: #242424;
     border: rgb(180, 180, 180) 5px solid;
 }
 .equation-log{
