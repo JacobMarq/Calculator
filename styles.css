@@ -1,10 +1,48 @@
+/*  |Table of Contents|
+/================================
+
+    1. Main
+    2. Header
+    3. Mode Selection
+        3.1 Dropdown Icon
+        3.2 Dropdown Content
+    4. Memory/History
+    5. Calculator
+        5.1 Casing 
+        5.2 Display
+        5.3 Buttons
+            5.3.1 Layout
+            5.3.2 Number
+            5.3.3 Erasing
+            5.3.4 Enter
+            5.3.5 Operator
+            5.3.6 Function
+
+
+
+
+
+
+================================/
+    |Table of Contents|
+*/
+
+
+/* ============
+     Main
+============ */
+
 html{
-    background-color: #282828;
+    background-color: #191919;
+    min-height: 100%;
+    font-size: 1rem;
 }
 
 body{
     min-width: auto;
-    min-height: 100%;
+    min-height: 90vh;
+    align-items: center;
+    justify-content: center;
     display: flex;
     flex-direction: column;
     padding-top: 50px;
@@ -12,6 +50,10 @@ body{
 .clickable{
     cursor: pointer;
 }
+
+/* ==============
+     Header
+============== */
 
 .top-bar{
     display: block;
@@ -21,7 +63,7 @@ body{
     width: 100%;
     z-index: 5050;
     height: 50px;
-    background-color: #333;
+    background-color: #282828;
     box-shadow: 0 0 10px 1px black;
 }
 .autocenter{
@@ -34,7 +76,11 @@ body{
     align-items: center;
 }
 
-/*calculator mode*/
+/* ==============
+  Mode Selection
+============== */
+
+/* Dropdown Icon */
 
 .gridcells{
     height: 100%;
@@ -53,7 +99,8 @@ body{
     align-items: center !important;
     justify-content: center !important;   
 }
-.dropdown-toggle:hover{
+.dropdown-toggle:hover,
+.dropdown-toggle:focus{
     background-color: #666;
 }
 .dropdown-toggle span{
@@ -106,7 +153,7 @@ body{
     color: white;
 }
 
-/*open dropdown content*/
+/* dropdown content */
 
 .dialog-wrapper{
     overflow-y: hidden;
@@ -114,7 +161,7 @@ body{
     top: 50px;
     right: auto;
     height: 325px;
-    width: 212px;
+    width: 312px;
     box-sizing: border-box;
     position: absolute;
     z-index: 999;
@@ -131,8 +178,8 @@ body{
     position: absolute;
     z-index: 999;
     text-align: left;
-    background-color: #323232;
-    box-shadow: 0 3px 3px 0 #282828;
+    background-color: #282828;
+    box-shadow: 0 3px 3px 0 #191919;
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
@@ -148,7 +195,7 @@ body{
     display: block;
     z-index: 1000;
     flex-shrink: 0;
-    width: 200px;
+    width: 230px;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -163,36 +210,59 @@ body{
     padding-top: 8px;
     height: 311px;
 }
+
+
 .mode-selection{
     list-style: none;
 }
 .mode-type{
-    font-size: 0.9rem;
+    font-size: .85em;
     line-height: 2rem;
     color: white;
-    background-color: #292929;
+    background-color: #191919;
     padding-left: 10px;
     list-style: none;
     cursor: default;
 }
+
+
 .selection{
-    font-size: 1.2rem;
-    line-height: 3rem;
+    display: flex;
+    padding: 0;
+    align-items: center;
+    justify-content: left;
+    font-size: 1rem;
+    line-height: 1rem;
     color: white;
-    padding-left: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
     border-left: 5px solid transparent;
     list-style: none;
-    cursor: pointer;
+    transition: all ease-in-out .25s;
 }
-.selection:hover{
-    background-color: #666;
-}
-.selection.current{
-    background-color: #666;
-    border-left: 5px solid rgb(0, 119, 255);
+.action{
+    line-height: 1rem;
+    margin-right: 15px;
 }
 
-/*memory/history*/
+
+kbd{
+    background-color: #eee;
+    border-radius: 3px;
+    border: 1px solid #b4b4b4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .2), 0 2px 0 0 rgba(255, 255, 255, .7) inset;
+    color: #333;
+    display: inline-block;
+    font-size: .8rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
+
+/* ==============
+  Memory/History
+============== */
 
 .bar-options{
     box-sizing: border-box;
@@ -208,15 +278,16 @@ body{
     display: flex;
 }
 .bar-option-wrapper{
+    display: flex;
     position: relative;
     overflow: hidden;
-    width: 100px;
+    width: 110px;
     height: 100%;
+    align-items: center;
 }
 #history{
     position: absolute;
     display: inline-block;
-    top: 11px;
     font-size: 1.4rem;
     color: white;
     transform: translateX(-200%);
@@ -225,7 +296,6 @@ body{
 #memory{
     position: absolute;
     display: inline-block;
-    top: 11px;
     font-size: 1.4rem;
     margin: auto;
     color: white;
@@ -233,21 +303,20 @@ body{
     -webkit-transform: translateX(-200%);
 }
 #next-signal{
-    display: inline-block;
+    display: flex;
+    text-align: center;
+    margin: auto;
     box-sizing: border-box;
     overflow: hidden;
-    margin: 0;
-    padding: 0;
-    margin-left: auto;
-    margin-right: 15px;
-    font-size: .8rem;
+    font-size: 1.8rem;
     color: transparent;
 }
-.bar-options:hover{
-    background-color: gray;
+.bar-options:hover,
+.bar-options:focus{
+    background-color: #666;
 }
 .bar-options:hover>#next-signal{
-    color: lightgray;
+    color: white;
 }
 .slide-in{
     animation: slide-in 1s forwards;
@@ -275,18 +344,20 @@ body{
     100% { -webkit-transform: translateX(200%);}
 }
 
-/* Calculator */
+/* ============
+   Calculator
+============ */
+
+/* Casing */
 
 .container{
     display: flex;
     position: relative;
     width: auto;
     height: auto;
-    justify-content: space-between;
     background-color: aliceblue;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-top: 50px;
     border-radius: 3%;
     border: rgb(180, 180, 180) 5px solid;
     overflow: hidden;
@@ -302,6 +373,8 @@ body{
     background-color: lightgray;
 }
 
+/* Display */
+
 .screen{
     display: flex;
     flex-direction: column;
@@ -309,39 +382,50 @@ body{
     justify-self: center;
     align-items: right;
     align-self: center;
-    margin: auto;
+    margin: 0 auto;
     margin-top: 25px;
     height: 150px;
     width: 90%;
-    background-color: #242424;
+    background-color: #252525;
     border: rgb(180, 180, 180) 5px solid;
     color: white;
     overflow: hidden;
 }
 .screen.Scientific{
-    background-color: #242424;
+    background-color: #252525;
     border: rgb(180, 180, 180) 5px solid;
 }
 .equation-log{
     display: flex;
+    height: 19px;
+    width: 95%;
     justify-content: right;
-    justify-self: right;
     text-align: right;
+    margin-left: auto;
     margin-top: 30px;
     margin-right: 20px;
+    margin-bottom: 0;
     cursor: default;
 }
 .current-number{
     display: flex;
+    height: 58px;
+    width: 95%;
     justify-content: right;
-    justify-self: right;
     text-align: right;
+    margin-left: auto;
     margin-right: 15px;
     margin-top: auto;
     margin-bottom: 44px;
     font-size: 3rem;
     cursor: default;
 }
+
+/* -------------
+    Buttons
+------------- */
+
+/* Layout */
 
 .buttons{
     display: grid;
@@ -361,17 +445,33 @@ body{
     background-color: lightcyan;
 }
 
+.standard-btns{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: repeat 6 1fr;
+    height: 465px;
+    width: 90%;
+}
+.scientific-btns{
+
+}
+
+/* Number Pad */
+
 .numpad{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
     margin: 2.5px;
     background-color: rgb(230, 230, 230);
     border: 2.5px solid rgb(230, 230, 230);
     border-radius: 10px;
+    transition: all 0.12s;
 }
-.numpad:hover{
+.numpad:hover,
+.numpad:focus{
     cursor: pointer;
     background-color: rgb(255, 255, 255);
     border: 2.5px solid rgb(255, 255, 255);
@@ -382,12 +482,17 @@ body{
     border: 2.5px solid rgb(255, 255, 255);
 }
 
+/* Erasing */
+
 .erase{
+    font-size: 1.5rem;
+    line-height: 1.5rem;
     color: white;
     background-color: brown;
     border: 2.5px solid brown;
 }
-.erase:hover{
+.erase:hover,
+.erase:focus{
     background-color: rgb(210, 45, 45);
     border: 2.5px solid rgb(210, 45, 45);
 }
@@ -396,50 +501,78 @@ body{
     border: 2.5px solid rgb(210, 45, 45);
 }
 
-.enter{
-    color: white;
-    background-color: rgb(0, 110, 255);
-    border: 2.5px solid rgb(0, 110, 255);
+.backspace-symbol{
+    height: 1.5rem;
+    min-width: 1.5rem;
+    filter: invert(88%) sepia(93%) saturate(3827%) hue-rotate(186deg) brightness(120%) contrast(100%);
 }
-.enter:hover{
-    background-color: rgb(0, 153, 255);
-    border: 2.5px solid rgb(0, 153, 255);
+
+/* Enter */
+
+.enter{
+    font-size: 1.8rem;
+    line-height: 1rem;
+    color: white;
+    background-color: rgb(0, 102, 255);
+    border: 2.5px solid rgb(0, 102, 255);
+}
+.enter:hover,
+.enter:focus{
+    background-color: rgb(0, 135, 255);
+    border: 2.5px solid rgb(0, 135, 255);
 }
 .enter.highlight{
-    background-color: rgb(0, 153, 255);
-    border: 2.5px solid rgb(0, 153, 255);
+    background-color: rgb(0, 135, 255);
+    border: 2.5px solid rgb(0, 135, 250);
 }
 
-.backspace-symbol{
-    font-size: 2rem;
-}
+/* Operator */
 
 .operator{
+    font-size: 1.8rem;
+    line-height: 1.5rem;
     color: white;
-    background-color: rgb(201, 110, 0);
-    border: 2.5px solid rgb(201, 110, 0);
+    background-color: rgb(201, 97, 0);
+    border: 2.5px solid rgb(201, 97, 0);
 }
-.operator:hover{
-    background-color: rgb(227, 122, 0);
-    border: 2.5px solid rgb(227, 122, 0);
+.operator:hover,
+.operator:focus{
+    background-color: rgb(227, 97, 0);
+    border: 2.5px solid rgb(227, 97, 0);
 }
 .operator.highlight{
-    background-color: rgb(227, 122, 0);
-    border: 2.5px solid rgb(227, 122, 0);
+    background-color: rgb(227, 97, 0);
+    border: 2.5px solid rgb(227, 97, 0);
 }
 
+.minus-symbol{
+    font-size: 1.5rem;
+}
+
+/* Function */
+
 .functions{
+    font-size: 1.5rem;
+    line-height: 1.5rem;
     color: white;
     background-color: rgb(60, 77, 77);
     border: 2.5px solid rgb(60, 77, 77);
 }
-.functions:hover{
+.functions:hover,
+.functions:focus{
     background-color: rgb(90, 116, 116);
     border: 2.5px solid rgb(90, 116, 116);
 }
 .functions.highlight{
     background-color: rgb(90, 116, 116);
     border: 2.5px solid rgb(90, 116, 116);
+}
+
+.sqrt-symbol{
+    font-size: 1.8rem;
+}
+.decimal{
+    font-size: 2rem;
 }
 
 
