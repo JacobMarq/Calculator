@@ -65,6 +65,9 @@ let isMultiplication = false;
 let isExponent = false;
 let hasDecimal = false; 
 
+var isFunctionResult = false;
+var varBHasFunction = false;
+
 //key layout arrays
 
 const standardKeyArray = ['percent', 'clear-each', 'clear-all', 'clear-backspace',
@@ -79,6 +82,8 @@ var typeInspector = Array.from(calculatorType.classList);
 var currentKeyArray = standardKeyArray;
 var currentKeyContentArr = standardKeyContentArr;
 const keypadNodelist = document.getElementsByClassName('numpad');
+const DialogBox = document.getElementsByClassName('dialog-wrapper');
+DialogBox[0].style.display = 'none';
 
 
 //Options Panel (History/Memory)
@@ -119,19 +124,30 @@ function ToggleDropDown()
 {
     if(!isDropDownActive)
     {   
-        dropDownHamburger[0].classList.add('toggle-active');
-        dropDownMenu.classList.add('active');
-        isDropDownActive = true
-        console.log('Dropdown', isDropDownActive);
+        DialogBox[0].style.display = 'block';
+        setTimeout(ShowDropdownMenu, 5);
     }
     else
     {
         dropDownHamburger[0].classList.remove('toggle-active');
         dropDownMenu.classList.remove('active');
         isDropDownActive = false
+        setTimeout(HideDropdownMenu, 250);
         console.log('Dropdown', isDropDownActive);
     }
 }
+function ShowDropdownMenu()
+{
+    dropDownHamburger[0].classList.add('toggle-active');
+    dropDownMenu.classList.add('active');
+    isDropDownActive = true
+    console.log('Dropdown', isDropDownActive);
+}
+function HideDropdownMenu()
+{
+    DialogBox[0].style.display = 'none';
+}
+
 
 // for(i=0; i<modeSelections.length; i++){
 //     modeSelections[i].addEventListener('click', function(e){ChangeMode(e);});
@@ -194,6 +210,7 @@ function ToggleDropDown()
 
 
 //Calculator Assembly
+
 
 
 function InsertKeyPadClasses()
@@ -299,7 +316,15 @@ function InsertKeyPadFunctions()
         }
         else if(keypadNodelist[i].classList.contains('sqrt'))
         {
-            keypadNodelist[i].addEventListener('click', ()=>SqrRt(CurrentNumber.textContent));
+            keypadNodelist[i].addEventListener('click', ()=>Sqrt(CurrentNumber.textContent));
+        }
+        else if(keypadNodelist[i].classList.contains('x-squared'))
+        {
+            keypadNodelist[i].addEventListener('click', ()=>Sq(CurrentNumber.textContent));
+        }
+        else if(keypadNodelist[i].classList.contains('one-divided-by-x'))
+        {
+            keypadNodelist[i].addEventListener('click', ()=>OneDividedByx(CurrentNumber.textContent));
         }
         else
         {
@@ -309,7 +334,7 @@ function InsertKeyPadFunctions()
 }
 
 
-//Calculator Display
+//Display Functions
 
 
 function DecimalCheck(a)
@@ -447,17 +472,192 @@ function ApplyCommas()
     }
 }
 
+function CheckSciNotation(number)
+{
+    string = number.toString();
+    
+    if(string.match(/^\-*\d*\.?\d+e[-+]?\d+/g))
+    {   
+        return;
+    }
+    else
+    {
+        ApplyCommas();
+    }
+}
+
+function ApplySciNotation(number)
+{  
+    if(number > 9999999999999 || number < -9999999999999 || hasDecimal && number.length > 12){
+        var displayNumber = Number.parseFloat(number).toExponential(5);
+        return displayNumber;
+    }
+    else 
+        return number;
+}
+
+function LogSplitter()
+{
+    //finds the index of the operator used in the equation
+    var findOp = EquationLog.textContent.match(/(?!\.)[\s]+[+-/*]+/i);
+    
+    if(isVarA)
+    {
+        return EquationLog.textContent.length;
+    }
+    else if(isVarB && varB == null)
+    {
+        console.log(EquationLog.textContent.lastIndexOf(findOp), 'null');
+        return EquationLog.textContent.lastIndexOf(findOp);
+    }
+    else
+    {
+        console.log(EquationLog.textContent.lastIndexOf(findOp), 'not null');
+        return EquationLog.textContent.lastIndexOf(findOp);
+    }
+}
+
 
 //Function Keys
 
-var isFunctionResult = false;
 
-function ApplyFunction()
-{
+function Sq(x){
+    
+    if(x == null || x == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        isFunctionResult = true;
 
+        var variable = RemoveCommas(x);
+        var result = variable * variable;
+
+        DecimalCheck(result);
+        if(hasDecimal)
+        {
+            result = Number(result.toFixed(2));
+        }
+
+        inputFunctionArray.push('x-squared');
+        inputVariableArray.push(result);
+
+        if(!isVarB || EquationLog.textContent.match(/[=]+/i))
+        {
+            EquationLog.innerHTML = variable + '^2';
+            console.log(EquationLog.textContent.match(/[=]+/i))
+
+            result = ApplySciNotation(result);
+            CurrentNumber.textContent = result;
+            CheckSciNotation(result);
+        }
+        else
+        {
+            EquationLog.innerHTML = EquationLog.textContent + variable + '^2';
+            varB = result;
+            varBHasFunction = true;
+            
+            result = ApplySciNotation(result);
+            CurrentNumber.textContent = result;
+            CheckSciNotation(result);
+        }
+    }
 }
 
-function Percent()
+function OneDividedByx(x){
+    
+    if(x == null || x == 0)
+    {
+        alert('You cannot divide by zero!')
+    }
+    else
+    {
+        isFunctionResult = true;
+
+        var variable = RemoveCommas(x);
+        var result = 1 / variable;
+
+        DecimalCheck(result);
+        if(hasDecimal)
+        {
+            result = Number(result.toFixed(2));
+        }
+
+        inputFunctionArray.push('one-divided-by-x');
+        inputVariableArray.push(result);
+
+        if(!isVarB || EquationLog.textContent.match(/[=]+/i))
+        {
+            EquationLog.innerHTML = '(1/' + variable + ')';
+            console.log(EquationLog.textContent.match(/[=]+/i))
+
+            result = ApplySciNotation(result);
+            CurrentNumber.textContent = result;
+            CheckSciNotation(result);
+        }
+        else
+        {
+            EquationLog.innerHTML = EquationLog.textContent + '(1/' + variable + ')';
+            varB = result;
+            varBHasFunction = true;
+            
+            result = ApplySciNotation(result);
+            CurrentNumber.textContent = result;
+            CheckSciNotation(result);
+        }
+    }
+}
+
+function Sqrt(x)
+{
+    if(x < 0){
+        alert('The square root of a negative number is not a Real Number!');
+        return;
+    }
+    
+    if(x == null || x == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        isFunctionResult = true;
+
+        var variable = RemoveCommas(x);
+        var result = Math.sqrt(variable);
+
+        DecimalCheck(result);
+        if(hasDecimal)
+        {
+            result = Number(result.toFixed(2));
+        }
+
+        inputFunctionArray.push('sqrt');
+        inputVariableArray.push(result);
+
+        if(!isVarB || EquationLog.textContent.match(/[=]+/i))
+        {
+            EquationLog.innerHTML = '&#x221a' + '(' + variable + ')';
+
+            result = ApplySciNotation(result);
+            CurrentNumber.textContent = result;
+            CheckSciNotation(result);
+        }
+        else
+        {
+            EquationLog.innerHTML = EquationLog.textContent + '&#x221a' + '(' + variable + ')';
+            varB = result;
+            varBHasFunction = true;
+            
+            result = ApplySciNotation(result);
+            CurrentNumber.textContent = result;
+            CheckSciNotation(result);
+        }
+    }
+}
+
+function Percent(number)
 {
     var percentResult;
     var percentage;
@@ -485,16 +685,9 @@ function ToggleInverse(number)
     else
     {
         newNumber =  (newNumber * -1);
-        if(newNumber > 9999999999999 || newNumber < -9999999999999)
-        {   
-            var displayNumber = Number.parseFloat(newNumber).toExponential(5);
-            CurrentNumber.textContent = displayNumber;
-        }
-        else
-        {
-            CurrentNumber.textContent = newNumber;
-            ApplyCommas();
-        }
+        newNumber = ApplySciNotation(newNumber);
+        CurrentNumber.textContent = newNumber;
+        CheckSciNotation(CurrentNumber.textContent);
     }
 }
 
@@ -511,132 +704,8 @@ function ApplyDecimal(number)
     }
 }
 
-function SqrRt(number)
-{
-    if(number < 0){
-        alert('The square root of a negative number is not a Real Number!');
-        return;
-    }
-    
-    if(number == null || number == 0)
-    {
-        return 0;
-    }
-    else
-    {
-        isFunctionResult = true;
-
-        var variable = RemoveCommas(number);
-        var result = Math.sqrt(variable);
-        DecimalCheck(result);
-        if(hasDecimal)
-        {
-            result = Number(result.toFixed(2));
-        }
-        inputFunctionArray.push('sqrt');
-        inputVariableArray.push(result);
-
-        if(!isVarB || EquationLog.textContent.match(/[=]*/i))
-        {
-            EquationLog.innerHTML = '&#x221a' + '(' + variable + ')';
-
-            result = ApplySciNotation(result);
-            CurrentNumber.textContent = result;
-            if(CheckSciNotation(result))
-            {   
-                return;
-            }
-            else
-            {
-                ApplyCommas();
-            }
-        }
-        else
-        {
-            EquationLog.innerHTML = EquationLog.textContent + '&#x221a' + '(' + variable + ')';
-            varB = result;
-            
-            result = ApplySciNotation(result);
-            CurrentNumber.textContent = result;
-            if(CheckSciNotation(result))
-            {   
-                return;
-            }
-            else
-            {
-                ApplyCommas();
-            }
-        }
-    }
-}
-
-/*==============
-    TESTING
-============*/
-function CheckSciNotation(number)
-{
-    string = number.toString();
-    console.log(string);
-    
-    if(string.match(/^\-*\d*\.?\d+e[-+]?\d+/g))
-    {   
-        console.log('match true');
-        return true;
-    }
-    else
-    {
-        console.log('match false');
-        return false;
-    }
-}
-
-function ApplySciNotation(number)
-{  
-    if(number > 9999999999999 || number < -9999999999999 || hasDecimal && number.length > 12){
-        var displayNumber = Number.parseFloat(number).toExponential(5);
-        return displayNumber;
-    }
-    else 
-        return number;
-}
-
-
-
 
 //Operator Keys
-
-function LogSplitter(index)
-{
-    var findOp = EquationLog.textContent.match(/[+-/*]+/i);
-    
-    if(isVarA)
-    {
-        console.log(EquationLog.textContent.length);
-        return EquationLog.textContent.length;
-    }
-    else if(isVarB && varB == null)
-    {
-        if(EquationLog.textContent.lastIndexOf(findOp) + 2 == EquationLog.textContent.length){
-            console.log(EquationLog.textContent.lastIndexOf(findOp));
-            return EquationLog.textContent.lastIndexOf(findOp) - 1;
-        }
-        else{
-            console.log(EquationLog.textContent.length);
-            return EquationLog.textContent.length;
-        }
-    }
-    else
-    {
-        if(EquationLog.textContent.lastIndexOf(findOp) + 2 == EquationLog.textContent.length){
-            console.log(EquationLog.textContent.lastIndexOf(findOp));
-            return EquationLog.textContent.lastIndexOf(findOp) +2;
-        }
-        else{
-            console.log(EquationLog.textContent.length);
-            return EquationLog.textContent.length;
-        }
-    }
-}
 
 
 function OperatorSelection(operator)
@@ -654,7 +723,8 @@ function OperatorSelection(operator)
         whichOperator = operator.target.className;
     }
 
-    if(inputFunctionArray.includes('sqrt'))
+    //updates the equation log with either the current number or the function operation to acheieve the current number
+    if(inputFunctionArray.length > 0)
     {
         
         var opIndex;
@@ -745,22 +815,21 @@ function ApplyOperator(operator)
         {
             numberResult = Number(numberResult.toFixed(2));
         }
+
         equationLog = [varA, operator, varB];
         varB = null;
         varA = numberResult;
         equationLog = [varA, operator];
-        if(varA > 9999999999999 || varA < -9999999999999 || hasDecimal && varA.length > 12)
-        {   
-            var displayNumber = Number.parseFloat(varA).toExponential(5);
-            CurrentNumber.textContent = displayNumber;
-            EquationLog.textContent = EquationLog.textContent.replace(/.*[\w]/g, displayNumber);
-        }
-        else
-        {
-            CurrentNumber.textContent = varA;
-            EquationLog.textContent = EquationLog.textContent.replace(/.*[\w]/g, varA);
-            ApplyCommas();
-        }
+
+        numberResult = ApplySciNotation(numberResult);
+        CurrentNumber.textContent = numberResult;
+
+        let opIndex = LogSplitter();
+        EquationLog.textContent = numberResult + EquationLog.textContent.substring(opIndex, EquationLog.textContent.length);
+        CheckSciNotation(numberResult);
+
+        inputFunctionArray.length = 0;
+        varBHasFunction = false;
     }
 }
 
@@ -792,27 +861,15 @@ function Enter()
 {
     if(EquationLog.textContent.includes(' / ') && CurrentNumber.textContent == '0')
     {
-        alert('You cannot divide by zero!')
+        alert('You cannot divide by zero!');
         return;
-    }
-    else
-    {
-        inputFunctionArray.length = 0;
     }
     
     if(isVarB && Math.abs(RemoveCommas(CurrentNumber.textContent)) == Math.abs(numberResult))//check if entering variable b and the current number is equal to the result of the last equation 
     {        
         varB = previousVarBUsed; // makes variable b in the new equation the same variable applied to the last equation
-        if(EquationLog.textContent.match(/^\-*\d*\.?\d+e[-+]?\d+/g)) //check if the first number in the equation is in scientific notation
-        {
-            console.log(EquationLog.textContent.match(/^\-*\d*\.?\d+e[-+]?\d+/g));
-            EquationLog.textContent = EquationLog.textContent.replace(/^\-*\d*\.?\d+e[-+]?\d+/g, RemoveCommas(CurrentNumber.textContent) + ' ');
-        }
-        else
-        {
-            console.log(EquationLog.textContent.match(/^(\-*\d*,*[e\+\.\d]*)\s/)); // checks for numbers including those that are negative, with commas, and/or with decimals
-            EquationLog.textContent = EquationLog.textContent.replace(/^(\-*\d*,*[e\+\.\d]*)\s/, RemoveCommas(CurrentNumber.textContent) + ' ');
-        }
+        let opIndex = LogSplitter();
+        EquationLog.textContent = RemoveCommas(CurrentNumber.textContent) + EquationLog.textContent.substring(opIndex, EquationLog.textContent.length);
         
         numberResult = DoOperation(equationLog[1]);
         DecimalCheck(numberResult);
@@ -820,54 +877,53 @@ function Enter()
         {
             numberResult = Number(numberResult.toFixed(2));
         }
+
         equationLog.push(varB, ' = ');
         varB = null;
         varA = numberResult;
-        if(varA > 9999999999999 || varA < -9999999999999 || hasDecimal && varA.length > 12)
-        {   
-            var displayNumber = Number.parseFloat(varA).toExponential(5);
-            CurrentNumber.textContent = displayNumber;
-            numberResult = displayNumber;
-        }
-        else
-        {
-            CurrentNumber.textContent = varA;
-            ApplyCommas();
-        }
+
+        numberResult = ApplySciNotation(numberResult);
+        CurrentNumber.textContent = numberResult;
+        CheckSciNotation(numberResult);
 
     }
     else if(isVarB)
     {
-        EquationLog.textContent = EquationLog.textContent + RemoveCommas(CurrentNumber.textContent) + ' = ';
+        if(varBHasFunction)
+        {
+            EquationLog.textContent = EquationLog.textContent + ' = ';
+        }
+        else
+        {
+            EquationLog.textContent = EquationLog.textContent + RemoveCommas(CurrentNumber.textContent) + ' = ';
+        }
         varB = Number(RemoveCommas(CurrentNumber.textContent));
+
         numberResult = DoOperation(equationLog[1]);
         DecimalCheck(numberResult);
         if(hasDecimal)
         {
             numberResult = Number(numberResult.toFixed(2));
         }
+
         equationLog.push(varB, ' = ');
         previousVarBUsed = varB;
         varB = null;
         varA = numberResult;
         
-        if(varA > 9999999999999 || varA < -9999999999999 || hasDecimal && varA.length > 12)
-        {   
-            var displayNumber = Number.parseFloat(varA).toExponential(5);
-            CurrentNumber.textContent = displayNumber;
-            numberResult = displayNumber;
-        }
-        else
-        {
-            CurrentNumber.textContent = varA;
-            ApplyCommas();
-        }
+        numberResult = ApplySciNotation(numberResult);
+        CurrentNumber.textContent = numberResult;
+        CheckSciNotation(numberResult);
 
     }
     else if(isVarA)
     {
         EquationLog.textContent = Number(RemoveCommas(CurrentNumber.textContent)) + ' = ';
     }
+    
+    inputFunctionArray.length = 0;
+    varBHasFunction = false;
+
 }
 
 
@@ -968,6 +1024,7 @@ function ClearAll()
     isVarB = false;
     isVarA = true;
     inputFunctionArray.length = 0;
+    varBHasFunction = false;
     CurrentNumber.textContent = '0';
     EquationLog.textContent = '';
     equationLog = [];
@@ -1016,8 +1073,6 @@ function Pressedkey(e){
     }
     else if(holdingShift && !e.key.match(/\W/g)) //check for shift + e where 'e' == key pressed
     {
-        if(e.key.match(/^[c]/i))
-            console.log('Shift + C');
         if(e.key.match(/delete/i) || e.key.match(/backspace/i)){
             ClearAll();
             HighlightKey('.clear-all');
@@ -1025,6 +1080,18 @@ function Pressedkey(e){
         if(e.key.match(/^[i]/i)){
             ToggleInverse(CurrentNumber.textContent);
             HighlightKey('.toggle-inverse');
+        }
+        if(e.key.match(/^[r]/i)){
+            Sqrt(CurrentNumber.textContent);
+            HighlightKey('.sqrt');
+        }
+        if(e.key.match(/^[s]/i)){
+            Sq(CurrentNumber.textContent);
+            HighlightKey('.x-squared');
+        }
+        if(e.key.match(/^[d]/i)){
+            OneDividedByx(CurrentNumber.textContent);
+            HighlightKey('.one-divided-by-x');
         }
     }
     else
@@ -1067,6 +1134,10 @@ function Pressedkey(e){
                 Enter();
                 HighlightKey('.equals');
                 break; 
+            case '%':
+                //Percent();
+                HighlightKey('.percent');
+                break;
         }
     }
 }

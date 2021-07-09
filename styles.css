@@ -161,7 +161,7 @@ body{
     top: 50px;
     right: auto;
     height: 325px;
-    width: 312px;
+    width: 240px;
     box-sizing: border-box;
     position: absolute;
     z-index: 999;
@@ -367,11 +367,6 @@ kbd{
     height: 700px !important;
     background-color: lightgray;
 }
-.content-wrapper.Scientific{
-    width: 1000px !important;
-    height: 700px !important;
-    background-color: lightgray;
-}
 
 /* Display */
 
@@ -440,10 +435,6 @@ kbd{
     background-color: rgb(180, 180, 180);
     border: rgb(180, 180, 180) 5px solid;
 }
-.buttons.scientific{
-    height: 465px;
-    background-color: lightcyan;
-}
 
 .standard-btns{
     display: grid;
@@ -451,9 +442,6 @@ kbd{
     grid-template-rows: repeat 6 1fr;
     height: 465px;
     width: 90%;
-}
-.scientific-btns{
-
 }
 
 /* Number Pad */
