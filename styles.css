@@ -374,8 +374,8 @@ kbd{
     display: flex;
     flex-direction: column;
     justify-content: right;
+    text-align: right;
     justify-self: center;
-    align-items: right;
     align-self: center;
     margin: 0 auto;
     margin-top: 25px;
