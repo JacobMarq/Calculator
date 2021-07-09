@@ -374,7 +374,6 @@ kbd{
     display: flex;
     flex-direction: column;
     justify-content: right;
-    text-align: right;
     justify-self: center;
     align-self: center;
     margin: 0 auto;
@@ -394,8 +393,7 @@ kbd{
     display: flex;
     height: 19px;
     width: 95%;
-    justify-content: right;
-    text-align: right;
+    justify-content: flex-end;
     margin-left: auto;
     margin-top: 30px;
     margin-right: 20px;
@@ -406,8 +404,7 @@ kbd{
     display: flex;
     height: 58px;
     width: 95%;
-    justify-content: right;
-    text-align: right;
+    justify-content: flex-end;
     margin-left: auto;
     margin-right: 15px;
     margin-top: auto;
