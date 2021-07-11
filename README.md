@@ -1,4 +1,4 @@
-    A standard Javascript Calculator based around the functionality of the windows calculator.
+   A standard Javascript Calculator based around the functionality of the windows calculator.
         
         Things I Learned:
             
@@ -22,9 +22,9 @@
 
             -CSS organization + table of contents for ease of use
     
-    functions include: sqrt of x; 1 divided by x; x squared; percent; memory keys;  history; clearing; backspace; add; subtract; multiply; divide; decimal; and inverse
+   functions include: sqrt of x; 1 divided by x; x squared; percent; memory keys;  history; clearing; backspace; add; subtract; multiply; divide; decimal; and inverse
 
-    keyboard functionality with hotkey menu
+   keyboard functionality with hotkey menu
 
         How Percent key functions: 
         
