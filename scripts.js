@@ -1,11 +1,13 @@
 
 //options menu variables
 
-const historyPanel = document.getElementById("history");
+const historyPanel = document.getElementById("history--");
+const historyWindow = document.getElementById("history-wrapper");
 let isHistory = false;
-const memoryPanel = document.getElementById("memory");
+const memoryPanel = document.getElementById("memory--");
+const memoryWindow = document.getElementById("memory-wrapper");
 let isMemory = false;
-const barOptionsPanel = document.getElementsByClassName("bar-options");
+const barOptionsPanel = document.getElementsByClassName("head-options");
 barOptionsPanel[0].addEventListener('click', function(){ToggleOptionsPanel();});
 
 //dropdown menu variables
@@ -14,19 +16,7 @@ const dropDownHamburger = document.getElementsByClassName('dropdown-toggle');
 dropDownHamburger[0].addEventListener('click', function(){ToggleDropDown();});
 const dropDownMenu = document.getElementById('dialog-container');
 let isDropDownActive = false;
-
-//mode related variables
-
-//const modeSelections = document.getElementsByClassName('selection');
-//const currentMode = document.getElementById('dropdown-selection');
 const calculatorType = document.getElementById('case');
-//var selectionsArray = [];
-//var typeCalculatorArray = ['Standard', 'Scientific'];
-//var typeConverterArray = ['Currency', 'Volume', 'Weight'];
-//for(i=0; i<modeSelections.length; i++){
-//    selectionsArray.push(modeSelections[i].id);
-//} 
-//console.table(selectionsArray);
 
 //screen output variables
 
@@ -36,21 +26,11 @@ let varA = 0;
 let isVarA = true;
 let varB = null;
 let isVarB = false;
-let numberResult = null;
+let savedResult = null;
 let previousVarBUsed = null;
 let equationLog = null;
 let savedCurrentNumber = null;
 CurrentNumber.textContent = varA;
-
-// Possible alternative to allow for operations to be handled in proper order by searching array 
-
-// result array = results
-// equation array = saved equations 
-// history object = result array and equation array
-// operator array = operators used in equation
-// function array = variable dependent functions in equation
-// variable array = numbers entered in order a, b 
-
 
 let inputVariableArray = [];
 let inputOperatorArray = [];
@@ -58,13 +38,7 @@ let inputFunctionArray = [];
 
 //math function variables
 
-let isAddition = false;
-let isDivision = false;
-let isSubtraction = false;
-let isMultiplication = false;
-let isExponent = false;
 let hasDecimal = false; 
-
 var isFunctionResult = false;
 var varBHasFunction = false;
 
@@ -106,6 +80,8 @@ function ToggleHistory()
     isHistory = true;
     isMemory = false;
     OptionSlide(memoryPanel, historyPanel);
+    memoryWindow.style.display = 'none';
+    historyWindow.style.display = 'flex';
     console.log(historyPanel.textContent, 'active');
 }
 function ToggleMemory()
@@ -113,6 +89,8 @@ function ToggleMemory()
     isHistory = false;
     isMemory = true;
     OptionSlide(historyPanel, memoryPanel);
+    historyWindow.style.display = 'none';
+    memoryWindow.style.display = 'flex';
     console.log(memoryPanel.textContent, 'active');
 }
 
@@ -149,68 +127,7 @@ function HideDropdownMenu()
 }
 
 
-// for(i=0; i<modeSelections.length; i++){
-//     modeSelections[i].addEventListener('click', function(e){ChangeMode(e);});
-// } 
-
-// function ChangeMode(e)
-// {
-//     var selection = e.target.id;
-//     console.log(selection, 'being applied');
-    
-//     for(i=0; i<modeSelections.length; i++){
-//         if(!modeSelections[i].classList.contains('current'))
-//         {
-//             continue;
-//         }
-//         else
-//         {
-//             modeSelections[i].classList.remove('current');
-//         }
-//     } 
-
-//     for(i=1; i<selectionsArray.length; i++){
-//         calculatorType.classList.remove(selectionsArray[i]);
-//     }
-
-//     currentMode.textContent = selection;
-//     e.target.classList.add('current');
-//     SetNewMode(selection);
-//     ToggleDropDown();
-// }
-
-// function SetNewMode(selection)
-// {
-    
-//     if(selection == 'Standard'){
-//         console.log(selection, 'set');
-//     }else{
-//         if(typeConverterArray.includes(selection)){
-//             console.log('type', 'Converter');
-//         }
-//         else{
-//             calculatorType.classList.add(selection);
-//             console.log('type', 'Calculator');
-//         }
-//     }
-
-//     typeInspector = Array.from(calculatorType.classList);
-
-//     if(typeInspector.includes('Scientific'))
-//     {
-//         currentKeyArray = 'science';
-//     }
-//     else
-//     {
-//         currentKeyArray = standardKeyArray;
-//         currentKeyContentArr = standardKeyContentArr;
-//     }
-//     console.log(currentKeyArray)
-// }
-
-
 //Calculator Assembly
-
 
 
 function InsertKeyPadClasses()
@@ -326,6 +243,10 @@ function InsertKeyPadFunctions()
         {
             keypadNodelist[i].addEventListener('click', ()=>OneDividedByx(CurrentNumber.textContent));
         }
+        else if(keypadNodelist[i].classList.contains('percent'))
+        {
+            keypadNodelist[i].addEventListener('click', ()=>Percent());
+        }
         else
         {
             keypadNodelist[i].addEventListener('click', ()=>ClearAll());
@@ -333,6 +254,27 @@ function InsertKeyPadFunctions()
     }
 }
 
+function InsertMemoryFunctions()
+{
+    const memoryList = document.getElementsByClassName('memorybtn');
+    for(i=0; i<memoryList.length; i++){
+        if(memoryList[i].className.match(/mc/)){
+            memoryList[i].addEventListener('click', ()=>MemoryClear());
+        }
+        else if(memoryList[i].className.match(/mr/)){
+            memoryList[i].addEventListener('click', ()=>MemoryRecall());
+        }
+        else if(memoryList[i].className.match(/mplus/)){
+            memoryList[i].addEventListener('click', ()=>MemoryAdd());
+        }
+        else if(memoryList[i].className.match(/m-/)){
+            memoryList[i].addEventListener('click', ()=>MemorySubtract());
+        }
+        else if(memoryList[i].className.match(/ms/)){
+            memoryList[i].addEventListener('click', ()=>MemoryStore());
+        }
+    }
+}
 
 //Display Functions
 
@@ -518,6 +460,102 @@ function LogSplitter()
 }
 
 
+//History Keys
+
+
+function SaveHistory(impliedData, result){
+    var newInputNumber = historyWindow.childElementCount
+    var newInput = document.createElement('div');
+    var savedEquation = document.createElement('span');
+    var savedResult = document.createElement('span');
+    
+    savedEquation.className = 'historyEquation';
+    if(impliedData)
+    {
+        var opIndex = LogSplitter();
+        var operator = EquationLog.textContent.substring(opIndex, opIndex + 3);
+        savedEquation.innerHTML = equationLog[0].toString() + operator + impliedData;
+        newInput.appendChild(savedEquation);
+
+        savedResult.className = 'optionsResult';
+        savedResult.innerHTML = result;
+        newInput.appendChild(savedResult);
+    }
+    else
+    {
+        savedEquation.innerHTML = EquationLog.textContent;
+        newInput.appendChild(savedEquation);
+
+        savedResult.className = 'optionsResult';
+        savedResult.innerHTML = CurrentNumber.textContent;
+        newInput.appendChild(savedResult);
+    }
+
+    newInput.id = 'history ' + newInputNumber;
+    historyWindow.insertBefore(newInput, historyWindow.firstChild);
+}
+
+
+//Memory Keys
+
+
+function MemoryClear(){
+    if(!memoryWindow.firstChild)
+        return;
+
+    while(memoryWindow.firstChild){
+        memoryWindow.removeChild(memoryWindow.firstChild);
+    }
+}
+
+function MemoryRecall(){
+    var currentMemory = memoryWindow.firstChild.firstChild;
+    if(!currentMemory)
+        return;
+
+    CurrentNumber.textContent = currentMemory.textContent;
+}
+
+function MemoryAdd(){
+    var currentMemory = memoryWindow.firstChild.firstChild;
+    if(!currentMemory)
+        return;
+
+    var numA = Number(RemoveCommas(currentMemory.textContent));
+    var numB = Number(RemoveCommas(CurrentNumber.textContent));
+    var result = numA + numB;
+    result = ApplySciNotation(result);
+
+    currentMemory.textContent = result;
+}
+
+function MemorySubtract(){
+    var currentMemory = memoryWindow.firstChild.firstChild;
+    if(!currentMemory)
+        return;
+
+    var numA = Number(RemoveCommas(currentMemory.textContent));
+    var numB = Number(RemoveCommas(CurrentNumber.textContent));
+    var result = numA - numB;
+    result = ApplySciNotation(result);
+
+    currentMemory.textContent = result;
+}
+
+function MemoryStore(){
+    var newInputNumber = memoryWindow.childElementCount;
+    var newInput = document.createElement('div');
+    var savedVar = document.createElement('span');
+
+    savedVar.className = 'optionsResult';
+    savedVar.textContent = CurrentNumber.textContent;
+    newInput.appendChild(savedVar);
+
+    newInput.id = 'memory ' + newInputNumber;
+    memoryWindow.insertBefore(newInput, memoryWindow.firstChild);
+}
+
+
 //Function Keys
 
 
@@ -657,21 +695,51 @@ function Sqrt(x)
     }
 }
 
-function Percent(number)
+function Percent()
 {
-    var percentResult;
-    var percentage;
-    if(varB == null || varB == 0)
+    var result = 0;
+    var current = Number(RemoveCommas(CurrentNumber.textContent));
+    if(isVarA)
     {
-        percentResult = 0;
-        CurrentNumber = 0;
-        EquationLog = 0;
+        EquationLog.textContent = '0';
     }
-    else
+    else if(inputOperatorArray.includes('multiply')||inputOperatorArray.includes('divide'))
     {
-        percentage = (varA/100)*varB;
+        if(current > 0 && current < 101)
+        {
+            result = varA * (current/100);
+            EquationLog.textContent = `${current} % ${varA} = `
+        }
+        else
+        {
+            result = current / 100;
+            EquationLog.textContent = `${current} % = `
+        }
     }
-    numberResult = (varA/100)*varB;
+    else if(inputOperatorArray.includes('subtract'))
+    {
+        result = varA - (varA * (current/100));
+        EquationLog.textContent = `${varA} - ${current} % ${varA} = `
+    }
+    else if(inputOperatorArray.includes('add'))
+    {
+        result = varA + (varA * (current/100));
+        EquationLog.textContent = `${varA} + ${current} % ${varA} = `
+    }
+
+    DecimalCheck(result);
+    if(hasDecimal)
+    {
+        result = Number(result.toFixed(2));
+    }
+    result = ApplySciNotation(result);
+    CheckSciNotation(result);
+    CurrentNumber.textContent = result;
+
+    varB = null;
+    isVarA = true;
+    isVarB = false;
+
 }
 
 function ToggleInverse(number)
@@ -791,17 +859,22 @@ function ApplyOperator(operator)
     //when on the second variable the previous variable stays displayed
     //operators are still selectable until user input
     //after input operator keys trigger the previously saved operation
+    var result;
+
     if(isVarA)
     {
         varA = Number(RemoveCommas(CurrentNumber.textContent));
         equationLog = [varA, operator];
+        inputOperatorArray.push(operator);
         isVarA = false;
         isVarB = true;
     }
     else if(isVarB && varB == null)
     {
+        inputOperatorArray.length = 0;
         equationLog = [varA, operator];
-        numberResult = null;
+        inputOperatorArray.push(operator);
+        savedResult = null;
     }
     else
     {
@@ -809,25 +882,28 @@ function ApplyOperator(operator)
         //sets 'varA' of a new equation equal to the result
 
         varB = Number(RemoveCommas(CurrentNumber.textContent));
-        numberResult = DoOperation(equationLog[1]);
-        DecimalCheck(numberResult);
+        result = DoOperation(equationLog[1]);
+        DecimalCheck(result);
         if(hasDecimal)
         {
-            numberResult = Number(numberResult.toFixed(2));
+            result = Number(result.toFixed(2));
         }
+        SaveHistory(CurrentNumber.textContent + ' = ', ApplySciNotation(result));
 
         equationLog = [varA, operator, varB];
         varB = null;
-        varA = numberResult;
+        varA = result;
         equationLog = [varA, operator];
 
-        numberResult = ApplySciNotation(numberResult);
-        CurrentNumber.textContent = numberResult;
+        result = ApplySciNotation(result);
+        CurrentNumber.textContent = result;
 
         let opIndex = LogSplitter();
-        EquationLog.textContent = numberResult + EquationLog.textContent.substring(opIndex, EquationLog.textContent.length);
-        CheckSciNotation(numberResult);
+        
+        EquationLog.textContent = result + EquationLog.textContent.substring(opIndex, EquationLog.textContent.length);
+        CheckSciNotation(result);
 
+        inputOperatorArray.length = 0;
         inputFunctionArray.length = 0;
         varBHasFunction = false;
     }
@@ -859,32 +935,35 @@ function DoOperation(operator)
 
 function Enter()
 {
+    var result;
+    
     if(EquationLog.textContent.includes(' / ') && CurrentNumber.textContent == '0')
     {
         alert('You cannot divide by zero!');
         return;
     }
     
-    if(isVarB && Math.abs(RemoveCommas(CurrentNumber.textContent)) == Math.abs(numberResult))//check if entering variable b and the current number is equal to the result of the last equation 
+    if(isVarB && Math.abs(RemoveCommas(CurrentNumber.textContent)) == Math.abs(savedResult))//check if entering variable b and the current number is equal to the result of the last equation 
     {        
         varB = previousVarBUsed; // makes variable b in the new equation the same variable applied to the last equation
         let opIndex = LogSplitter();
         EquationLog.textContent = RemoveCommas(CurrentNumber.textContent) + EquationLog.textContent.substring(opIndex, EquationLog.textContent.length);
         
-        numberResult = DoOperation(equationLog[1]);
-        DecimalCheck(numberResult);
+        result = DoOperation(equationLog[1]);
+        DecimalCheck(result);
         if(hasDecimal)
         {
-            numberResult = Number(numberResult.toFixed(2));
+            result = Number(result.toFixed(2));
         }
 
         equationLog.push(varB, ' = ');
         varB = null;
-        varA = numberResult;
+        varA = result;
 
-        numberResult = ApplySciNotation(numberResult);
-        CurrentNumber.textContent = numberResult;
-        CheckSciNotation(numberResult);
+        result = ApplySciNotation(result);
+        CurrentNumber.textContent = result;
+        CheckSciNotation(result);
+        savedResult = result;
 
     }
     else if(isVarB)
@@ -899,21 +978,22 @@ function Enter()
         }
         varB = Number(RemoveCommas(CurrentNumber.textContent));
 
-        numberResult = DoOperation(equationLog[1]);
-        DecimalCheck(numberResult);
+        result = DoOperation(equationLog[1]);
+        DecimalCheck(result);
         if(hasDecimal)
         {
-            numberResult = Number(numberResult.toFixed(2));
+            result = Number(result.toFixed(2));
         }
 
         equationLog.push(varB, ' = ');
         previousVarBUsed = varB;
         varB = null;
-        varA = numberResult;
+        varA = result;
         
-        numberResult = ApplySciNotation(numberResult);
-        CurrentNumber.textContent = numberResult;
-        CheckSciNotation(numberResult);
+        result = ApplySciNotation(result);
+        CurrentNumber.textContent = result;
+        CheckSciNotation(result);
+        savedResult = result;
 
     }
     else if(isVarA)
@@ -923,7 +1003,7 @@ function Enter()
     
     inputFunctionArray.length = 0;
     varBHasFunction = false;
-
+    SaveHistory();
 }
 
 
@@ -956,12 +1036,15 @@ function NumberSelection(number)
 function InjectNumber(input)
 {
     var currentNumberLength = CurrentNumber.textContent.length;
-    numberResult = null;
+    savedResult = null;
     
-    if(isVarB && EquationLog.textContent.match(/=/))
+    if(isVarB && EquationLog.textContent.match(/=/) || EquationLog.textContent.match(/=/))
     {
         CurrentNumber.textContent = input;
         EquationLog.textContent = '';
+        equationLog = [];
+        inputFunctionArray.length = 0;
+        inputOperatorArray.length = 0;
         varA = 0;
         isVarA = true;
         isVarB = false;    
@@ -1024,6 +1107,7 @@ function ClearAll()
     isVarB = false;
     isVarA = true;
     inputFunctionArray.length = 0;
+    inputOperatorArray.length = 0;
     varBHasFunction = false;
     CurrentNumber.textContent = '0';
     EquationLog.textContent = '';
@@ -1077,21 +1161,25 @@ function Pressedkey(e){
             ClearAll();
             HighlightKey('.clear-all');
         }
-        if(e.key.match(/^[i]/i)){
-            ToggleInverse(CurrentNumber.textContent);
-            HighlightKey('.toggle-inverse');
+        if(e.key.match(/^[s]/i)){
+            MemoryStore();
+            HighlightKey('.ms');
         }
         if(e.key.match(/^[r]/i)){
-            Sqrt(CurrentNumber.textContent);
-            HighlightKey('.sqrt');
+            MemoryRecall();
+            HighlightKey('.mr');
         }
-        if(e.key.match(/^[s]/i)){
-            Sq(CurrentNumber.textContent);
-            HighlightKey('.x-squared');
+        if(e.key.match(/^[c]/i)){
+            MemoryClear();
+            HighlightKey('.mc');
         }
-        if(e.key.match(/^[d]/i)){
-            OneDividedByx(CurrentNumber.textContent);
-            HighlightKey('.one-divided-by-x');
+        if(e.key.match(/^[q]/i)){
+            MemoryAdd();
+            HighlightKey('.mplus');
+        }
+        if(e.key.match(/^[e]/i)){
+            MemorySubtract();
+            HighlightKey('.m-');
         }
     }
     else
@@ -1135,8 +1223,28 @@ function Pressedkey(e){
                 HighlightKey('.equals');
                 break; 
             case '%':
-                //Percent();
+                Percent();
                 HighlightKey('.percent');
+                break;
+            case 'i':
+            case 'I':
+                ToggleInverse(CurrentNumber.textContent);
+                HighlightKey('.toggle-inverse');
+                break;
+            case 'r':
+            case 'R':
+                Sqrt(CurrentNumber.textContent);
+                HighlightKey('.sqrt');
+                break;
+            case 's':
+            case 'S':
+                Sq(CurrentNumber.textContent);
+                HighlightKey('.x-squared');
+                break;
+            case 'd':
+            case 'D':
+                OneDividedByx(CurrentNumber.textContent);
+                HighlightKey('.one-divided-by-x');
                 break;
         }
     }
@@ -1193,14 +1301,15 @@ function RemoveHighlight(e)
         return;
     }
     else{
-        console.log(e)
         this.classList.remove('highlight');
     }
 }
 
 let holdingShift =  false;
 const keys = document.querySelectorAll('.numpad');
+const mryKeys = document.querySelectorAll('.memorybtn');
 keys.forEach(key => key.addEventListener('transitionend', RemoveHighlight));
+mryKeys.forEach(mrykey => mrykey.addEventListener('transitionend', RemoveHighlight));
 
 
 //OnStart
@@ -1219,3 +1328,4 @@ ToggleOptionsPanel();
 InsertKeyPadClasses();
 InsertKeyPadContent();
 InsertKeyPadFunctions();
+InsertMemoryFunctions();

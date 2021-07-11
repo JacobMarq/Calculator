@@ -18,31 +18,31 @@
                         <div id="dialog-container">
                             <div class="dialog">
                                 <div class="sticky-container">
-                                    <oi class="mode-selections">
-                                        <li id="Calculator-Type" class="mode-type">Hotkeys</li>
-                                        <li id="Standard" class="selection"><p class="action"> Equals: </p> <kbd>Enter</kbd></li>
-                                        <li id="Standard" class="selection"><p class="action"> Backspace: </p> <kbd>&#129028</kbd></li>
-                                        <li id="Scientific" class="selection"><p class="action"> CE: </p> <kbd>Del</kbd></li>
-                                        <li id="Converter-Type" class="selection"><p class="action">C: </p> <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>&#129028</kbd>&nbsp;/&nbsp;<kbd>Del</kbd></li>
-                                        <li id="Weight" class="selection"><p class="action">%: </p> <kbd>%</kbd></li> 
-                                        <li id="Currency" class="selection"><p class="action">Inverse: </p> <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>I</kbd></li>    
-                                        <li id="Volume" class="selection"><p class="action">&#x221ax: </p> <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>R</kbd></li>     
-                                        <li id="Weight" class="selection"><p class="action">x^2: </p> <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>S</kbd></li>           
-                                        <li id="Weight" class="selection"><p class="action">1/x: </p> <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>D</kbd></li>               
+                                    <oi class="selections">
+                                        <li class="type">Memory</li>
+                                        <li class="selection"><p class="action">MC: </p> <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>C</kbd></li>    
+                                        <li class="selection"><p class="action">MR: </p> <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>R</kbd></li>     
+                                        <li class="selection"><p class="action">M+: </p> <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>Q</kbd></li>           
+                                        <li class="selection"><p class="action">M-: </p> <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>E</kbd></li>
+                                        <li class="selection"><p class="action">MS: </p> <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>S</kbd></li> 
+                                        <li class="type">Main</li>
+                                        <li class="selection"><p class="action"> Equals: </p> <kbd>Enter</kbd></li>
+                                        <li class="selection"><p class="action"> Backspace: </p> <kbd>&#129028</kbd></li>
+                                        <li class="selection"><p class="action"> CE: </p> <kbd>Del</kbd></li>
+                                        <li class="selection"><p class="action">C: </p> <kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>&#129028</kbd>&nbsp;/&nbsp;<kbd>Del</kbd></li>
+                                        <li class="type">Function Keys</li>
+                                        <li class="selection"><p class="action">%: </p> <kbd>%</kbd></li> 
+                                        <li class="selection"><p class="action">Inverse: </p> <kbd>I</kbd></li>    
+                                        <li class="selection"><p class="action">&#x221ax: </p> <kbd>R</kbd></li>     
+                                        <li class="selection"><p class="action">x^2: </p> <kbd>S</kbd></li>           
+                                        <li class="selection"><p class="action">1/x: </p> <kbd>D</kbd></li>               
                                     </oi>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="dropdown-selection">Hotkeys</div>
+                    <h2 id="dropdown-selection">Hotkeys</h2>
                 </div>
-                <ol class="bar-options clickable">
-                    <li class ="bar-option-wrapper">
-                        <a id="history">History</a>
-                        <a id="memory">Memory</a>
-                    </li>
-                    <li id="next-signal">&#8250</li>
-                </ol>
             </div>
         </header>
         <div class="container">
@@ -50,6 +50,13 @@
                 <div class="screen">
                     <div id="equationLog" class="equation-log"></div>
                     <div id="currentNumber" class="current-number"></div>
+                    <div id="memory-buttons">
+                        <span class="memorybtn mc">MC</span>
+                        <span class="memorybtn mr">MR</span>
+                        <span class="memorybtn mplus">M+</span>
+                        <span class="memorybtn m-">M-</span>
+                        <span class="memorybtn ms">MS</span>
+                    </div>
                 </div>
                 
                 <div class="buttons">
@@ -80,10 +87,29 @@
                 </div>
             </div>
         </div>
-        <footer>
-            <div>
-                <p></p>
+        <div class="options-container">
+            <div id="options-window">
+                <div class="options-header">
+                    <ol class="head-options clickable">
+                        <li id="next">&#8249</li>
+                        <li class ="option-select-wrapper">
+                            <h3 id="history--">History</a>
+                            <h3 id="memory--">Memory</a>
+                        </li>
+                        <li id="next">&#8250</li>
+                    </ol>
+                </div>
+                <div id="history-wrapper">
+
+                </div>
+                <div id="memory-wrapper">
+                    
+                </div>
             </div>
+        </div>
+        <footer id="footer">
+                <a id="odin" href="https://theodinproject.com/home">The Odin Project</a>
+                <a id="github" href="https://github.com/JacobMarq/Calculator"><img id="github-icon" src="img/github.svg"></a>
         </footer>
         <script src="scripts.js"></script>
         <script>

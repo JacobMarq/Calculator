@@ -3,10 +3,11 @@
 
     1. Main
     2. Header
-    3. Mode Selection
+    3. Hotkeys
         3.1 Dropdown Icon
         3.2 Dropdown Content
     4. Memory/History
+        4.1 options window
     5. Calculator
         5.1 Casing 
         5.2 Display
@@ -17,11 +18,7 @@
             5.3.4 Enter
             5.3.5 Operator
             5.3.6 Function
-
-
-
-
-
+    6.Footer
 
 ================================/
     |Table of Contents|
@@ -40,15 +37,21 @@ html{
 
 body{
     min-width: auto;
-    min-height: 90vh;
+    min-height: 85vh;
     align-items: center;
     justify-content: center;
     display: flex;
     flex-direction: column;
     padding-top: 50px;
+    padding-bottom: 50px;
 }
+
 .clickable{
     cursor: pointer;
+}
+
+h3{
+    color: white;
 }
 
 /* ==============
@@ -77,7 +80,7 @@ body{
 }
 
 /* ==============
-  Mode Selection
+    Hotkeys
 ============== */
 
 /* Dropdown Icon */
@@ -150,6 +153,7 @@ body{
     margin-left: 5px;
     cursor: default;
     font-size: 1.4rem;
+    letter-spacing: .3px;
     color: white;
 }
 
@@ -212,10 +216,10 @@ body{
 }
 
 
-.mode-selection{
+.selections{
     list-style: none;
 }
-.mode-type{
+.type{
     font-size: .85em;
     line-height: 2rem;
     color: white;
@@ -264,60 +268,107 @@ kbd{
   Memory/History
 ============== */
 
-.bar-options{
-    box-sizing: border-box;
+/* options window */
+
+#options-window{
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    background-color: #252525;
+    border: solid #666 5px;
+    box-shadow: 2px 3px 3px black;
+}
+@media(max-width: 1500px){
+    #options-window{
+        position: relative;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-top: 35px;
+        height: 200px;
+        width: 350px;
+    }
+}
+@media(min-width: 1500px){
+    #options-window{
+        position: absolute;
+        top: 50px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 380px;
+        padding-top: 35px;
+        height: 665px;
+        width: 350px;
+    }
+}
+
+.options-header{
+    position: absolute;
+    top: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 25px;
+    border-bottom: solid #666  2.5px;
+    width: 350px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #444;
+}
+.head-options{
+    display: flex;
+    flex-direction: row;
     height: 100% !important; 
     width: 150px;
     overflow: hidden !important;
     list-style: none;
     margin: 0;
-    padding: 0;
     margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 0;
     align-items: center;
-    justify-content: center;
-    display: flex;
+    justify-items: center;
 }
-.bar-option-wrapper{
-    display: flex;
+.head-options:hover,
+.head-options:focus{
+    background-color: #666;
+}
+.option-select-wrapper{
     position: relative;
+    align-items: center;
     overflow: hidden;
     width: 110px;
     height: 100%;
     align-items: center;
 }
-#history{
+#history--{
     position: absolute;
     display: inline-block;
-    font-size: 1.4rem;
-    color: white;
-    transform: translateX(-200%);
-    -webkit-transform: translateX(-200%);
-}
-#memory{
-    position: absolute;
-    display: inline-block;
-    font-size: 1.4rem;
+    top: 2px;
     margin: auto;
     color: white;
     transform: translateX(-200%);
     -webkit-transform: translateX(-200%);
 }
-#next-signal{
+#memory--{
+    position: absolute;
+    display: inline-block;
+    top: 2px;
+    margin: auto;
+    color: white;
+    transform: translateX(-200%);
+    -webkit-transform: translateX(-200%);
+}
+#next{
     display: flex;
     text-align: center;
+    align-items: center;
     margin: auto;
     box-sizing: border-box;
+    height: 25px;
+    font-size: 1.5rem;
     overflow: hidden;
-    font-size: 1.8rem;
-    color: transparent;
-}
-.bar-options:hover,
-.bar-options:focus{
-    background-color: #666;
-}
-.bar-options:hover>#next-signal{
     color: white;
 }
+
 .slide-in{
     animation: slide-in 1s forwards;
     -webkit-animation: slide-in 1s forwards;
@@ -326,22 +377,64 @@ kbd{
     animation: slide-out 1s forwards;
     -webkit-animation: slide-out 1s forwards;
 }
-
-
 @keyframes slide-in {
-    100% { transform: translateX(6%);}
+    100% { transform: translateX(-50%);}
 }
 @-webkit-keyframes slide-in {
-    100% { -webkit-transform: translateX(6%);}
+    100% { -webkit-transform: translateX(-50%);}
 }
 @keyframes slide-out {
-    0% { transform: translateX(6%);}
+    0% { transform: translateX(-50%);}
     100% { transform: translateX(200%);}
 
 }
 @-webkit-keyframes slide-out {
-    0% { -webkit-transform: translateX(6%);}
+    0% { -webkit-transform: translateX(-50%);}
     100% { -webkit-transform: translateX(200%);}
+}
+
+#memory-wrapper{
+    display: none;
+    flex-direction: column;
+    justify-content: right;
+    height: inherit;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#history-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    height: inherit;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.historyEquation{
+    display: flex;
+    font-size: medium;
+    color: darkgray;
+    height: 19px;
+    width: 95%;
+    justify-content: flex-end;
+    margin-left: auto;
+    padding-top: 10px;
+    margin-right: 20px;
+    cursor: default;
+}
+
+.optionsResult{
+    display: flex;
+    font-size: large;
+    color: white;
+    height: 19px;
+    width: 95%;
+    justify-content: flex-end;
+    margin-left: auto;
+    padding-top: 10px;
+    margin-right: 20px;
+    padding-bottom: 10px;
+    cursor: default;
 }
 
 /* ============
@@ -358,7 +451,6 @@ kbd{
     background-color: aliceblue;
     margin-left: auto !important;
     margin-right: auto !important;
-    border-radius: 3%;
     border: rgb(180, 180, 180) 5px solid;
     overflow: hidden;
 }
@@ -372,6 +464,7 @@ kbd{
 
 .screen{
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: right;
     justify-self: center;
@@ -411,6 +504,30 @@ kbd{
     margin-bottom: 44px;
     font-size: 3rem;
     cursor: default;
+}
+#memory-buttons{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 5px;
+}
+.memorybtn{
+    display: inline-block;
+    height: 25px;
+    width: 50px;
+    text-align: center;
+    padding-top: 6px;
+    border: solid #191919 2px;
+    transition: all 0.1s;
+}
+.memorybtn:hover{
+    background-color: #666;
+    border-color: #444;
+    cursor: pointer;
+}
+.memorybtn.highlight{
+    background-color: #666;
+    border-color: #444;
 }
 
 /* -------------
@@ -453,7 +570,7 @@ kbd{
     background-color: rgb(230, 230, 230);
     border: 2.5px solid rgb(230, 230, 230);
     border-radius: 10px;
-    transition: all 0.12s;
+    transition: all 0.1s;
 }
 .numpad:hover,
 .numpad:focus{
@@ -560,7 +677,49 @@ kbd{
     font-size: 2rem;
 }
 
+/* ============
+   Footer
+============ */
 
-
-
-
+#footer{
+    display: flex;
+    position: fixed;
+    justify-content: space-between;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 5050;
+    height: 50px;
+    background-color: #282828;
+}
+#odin{
+    display: flex;
+    width: 138px;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: inherit;
+    margin-left: 20px;
+    align-items: center;
+    margin-top: auto;
+    color: white;
+}
+#odin:hover{
+    background-color: #666;
+}
+#github{
+    display: flex;
+    width: 50px;
+    height: inherit;
+    margin-right: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+}
+#github:hover{
+    background-color: #666;
+}
+#github-icon{
+    height: 30px;
+    width: 30px;
+    filter: invert(88%) sepia(93%) saturate(3827%) hue-rotate(186deg) brightness(120%) contrast(100%);
+}
