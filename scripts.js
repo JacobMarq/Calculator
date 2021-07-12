@@ -82,7 +82,6 @@ function ToggleHistory()
     OptionSlide(memoryPanel, historyPanel);
     memoryWindow.style.display = 'none';
     historyWindow.style.display = 'flex';
-    console.log(historyPanel.textContent, 'active');
 }
 function ToggleMemory()
 {
@@ -91,7 +90,6 @@ function ToggleMemory()
     OptionSlide(historyPanel, memoryPanel);
     historyWindow.style.display = 'none';
     memoryWindow.style.display = 'flex';
-    console.log(memoryPanel.textContent, 'active');
 }
 
 
@@ -111,7 +109,6 @@ function ToggleDropDown()
         dropDownMenu.classList.remove('active');
         isDropDownActive = false
         setTimeout(HideDropdownMenu, 250);
-        console.log('Dropdown', isDropDownActive);
     }
 }
 function ShowDropdownMenu()
@@ -119,7 +116,6 @@ function ShowDropdownMenu()
     dropDownHamburger[0].classList.add('toggle-active');
     dropDownMenu.classList.add('active');
     isDropDownActive = true
-    console.log('Dropdown', isDropDownActive);
 }
 function HideDropdownMenu()
 {
@@ -341,12 +337,10 @@ function ApplyCommas()
         if(hasDecimal)
         {
             decimalPlace = number.indexOf('.');
-            console.log('howdy', decimalPlace)
         }
         else
         {
             decimalPlace = number.length
-            console.log('no howdy', decimalPlace)
         }
     }
 
@@ -364,25 +358,21 @@ function ApplyCommas()
         {
             CurrentNumber.textContent = number.substr(0, decimalPlace - 12) + ',' + number.substr(decimalPlace - 12, number.length);
             UpdateNumber();
-            console.log('13 comma'); 
         }
         if(decimalPlace > 10)
         {
             CurrentNumber.textContent = number.substr(0, decimalPlace - 9) + ',' + number.substr(decimalPlace - 9, number.length);
-            UpdateNumber();
-            console.log('10 comma'); 
+            UpdateNumber(); 
         }
         if(decimalPlace > 7)
         {
             CurrentNumber.textContent = number.substr(0, decimalPlace - 6) + ',' + number.substr(decimalPlace - 6, number.length);
-            UpdateNumber();
-            console.log('7 comma'); 
+            UpdateNumber(); 
         }
         if(decimalPlace > 4)
         {
             CurrentNumber.textContent = number.substr(0, decimalPlace - 3) + ',' + number.substr(decimalPlace - 3, number.length);
-            UpdateNumber();
-            console.log('4 comma');       
+            UpdateNumber();       
         }
     }
     else
@@ -390,26 +380,22 @@ function ApplyCommas()
         if(decimalPlace > 12)
         {
             CurrentNumber.textContent = number.substr(0, decimalPlace - 12) + ',' + number.substr(decimalPlace - 12, number.length);
-            UpdateNumber();
-            console.log('13 comma'); 
+            UpdateNumber(); 
         }
         if(decimalPlace > 9)
         {
             CurrentNumber.textContent = number.substr(0, decimalPlace - 9) + ',' + number.substr(decimalPlace - 9, number.length);
             UpdateNumber();
-            console.log('10 comma'); 
         }
         if(decimalPlace > 6)
         {
             CurrentNumber.textContent = number.substr(0, decimalPlace - 6) + ',' + number.substr(decimalPlace - 6, number.length);
-            UpdateNumber();
-            console.log('7 comma'); 
+            UpdateNumber(); 
         }
         if(decimalPlace > 3)
         {
             CurrentNumber.textContent = number.substr(0, decimalPlace - 3) + ',' + number.substr(decimalPlace - 3, number.length);
-            UpdateNumber();
-            console.log('4 comma');       
+            UpdateNumber();      
         }
     }
 }
@@ -449,12 +435,10 @@ function LogSplitter()
     }
     else if(isVarB && varB == null)
     {
-        console.log(EquationLog.textContent.lastIndexOf(findOp), 'null');
         return EquationLog.textContent.lastIndexOf(findOp);
     }
     else
     {
-        console.log(EquationLog.textContent.lastIndexOf(findOp), 'not null');
         return EquationLog.textContent.lastIndexOf(findOp);
     }
 }
@@ -584,7 +568,6 @@ function Sq(x){
         if(!isVarB || EquationLog.textContent.match(/[=]+/i))
         {
             EquationLog.innerHTML = variable + '^2';
-            console.log(EquationLog.textContent.match(/[=]+/i))
 
             result = ApplySciNotation(result);
             CurrentNumber.textContent = result;
@@ -628,7 +611,6 @@ function OneDividedByx(x){
         if(!isVarB || EquationLog.textContent.match(/[=]+/i))
         {
             EquationLog.innerHTML = '(1/' + variable + ')';
-            console.log(EquationLog.textContent.match(/[=]+/i))
 
             result = ApplySciNotation(result);
             CurrentNumber.textContent = result;
@@ -1058,7 +1040,6 @@ function InjectNumber(input)
     {
         CurrentNumber.textContent = input;
         isFunctionResult = false;
-        console.log(CurrentNumber.textContent)
     }
     else
     {
@@ -1070,7 +1051,6 @@ function InjectNumber(input)
         else
         {
             CurrentNumber.textContent = CurrentNumber.textContent + input;
-            console.log(CurrentNumber.textContent);
         }
     }
 }
@@ -1085,17 +1065,14 @@ function Erase(which)
     
     if(whichEraser.match(/each/))
     {
-        console.log('each');
         ClearEach();
     }
     else if(whichEraser.match(/backspace/))
     {
-        console.log('backspace');
         BackSpace();
     }
     else if(whichEraser.match(/all/))
     {
-        console.log('all');
         ClearAll();
     }
 }
@@ -1147,7 +1124,6 @@ function BackSpace()
 
 
 function Pressedkey(e){
-    console.log(`you pressed the ${e.key} key`);
     if(e.key.match(/[0-9]/))
     {   
         numKey = (e.key);
@@ -1188,7 +1164,6 @@ function Pressedkey(e){
         {
             case 'Shift':
                 holdingShift = true;
-                console.log(holdingShift);
                 break;   
             case 'Delete':
                 ClearEach();
@@ -1319,7 +1294,6 @@ document.addEventListener('keydown', (e)=> Pressedkey(e));
 document.addEventListener('keyup', (e)=>{
     if(e.key=='Shift') {
         holdingShift = false; 
-        console.log(holdingShift);
     } 
     else {
         return;
