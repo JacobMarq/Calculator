@@ -46,7 +46,7 @@
 
             while using subtraction
             percent key result will display variable 'a' minus the current number percent of variable 'a'; 
-                (result = a + (x %of a))
+                (result = a - (x %of a))
 
 
 
