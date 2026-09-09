@@ -1,3 +1,18 @@
+   UPDATE 9/9/2026
+    total rewrite
+
+    New design
+    A tokenized mathematical expression parser backed by an expression tree/AST.
+        - addressed lack of seperation of concerns within the code
+        - dramatically simplifies the logic
+        - helps with the issue of desynchronization between state
+        - improves handling mathematical expressions
+        - resolved issues with repeated equals, functions, and result presentation
+        - new backend is verified but history and memory are not yet complete so will be using old backend until finished - 9/9/2026
+
+
+   PREVIOUS 10/21/2021
+
    A standard Javascript Calculator based around the functionality of the windows calculator.
         
         Things I Learned:

@@ -125,7 +125,6 @@ function HideDropdownMenu()
 
 //Calculator Assembly
 
-
 function InsertKeyPadClasses()
 {
     for(i=0; i<keypadNodelist.length;i++){
